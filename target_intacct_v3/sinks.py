@@ -769,7 +769,7 @@ class PurchaseInvoices(IntacctSink):
 
                     project_name = line.get("projectName")
                     project_id = line.get("projectId")
-                    if (project_name or project_id) and not item["PROJECTID"]:
+                    if project_name and not item["PROJECTID"]:
                         self.get_projects()
                         if project_name:
                             item["PROJECTID"] = IntacctSink.projects.get(project_name)

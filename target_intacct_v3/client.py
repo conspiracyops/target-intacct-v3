@@ -1,6 +1,7 @@
 import base64
 import datetime as dt
 import json
+import re
 import uuid
 from pathlib import Path
 
@@ -436,7 +437,7 @@ class IntacctSink(HotglueSink):
     def post_attachments(self, attachments, record_id):
 
         # strip before truncating so trailing/leading spaces don't consume part of the 20-char window
-        supdoc_id = str(record_id).replace("-", "").strip()[-20:]  # supdocid only allows 20 chars
+        supdoc_id = re.sub(r"\s+", " ", str(record_id).replace("-", "")).strip()[-20:]  # supdocid only allows 20 chars
         self.logger.info(f"Transforming record_id: {record_id} into supdoc_id: {supdoc_id}")
         # 1. check if supdoc exists and get existing attachments
         try:
